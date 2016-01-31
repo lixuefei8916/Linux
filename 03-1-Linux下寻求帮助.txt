@@ -8,6 +8,7 @@
 ls /bin/*sh   	启动命令行的方式，主流 /bin/bash,  
 shell - shell是和人对话的接口，任何执行都是通过shell对接，当运行ls命令时会调用一个库alibc.so，与内核去沟通  = windows下双击文件
 
+命令和参数区分大小写  ps f  /  ps F
 ==============================================
 
 help xxxx [查询shell 内部命令]
@@ -29,8 +30,33 @@ man基本使用
 	3. 查找		/xxx关键字
 	4. 查找下一个  n
 	5. 反向查找  shift + n
+
 man page
-	man类型	： 	1 = 普通命令，谁都可以执行，  man xxx后默认的；
+	man类型	： 	1 = 普通命令，谁都可以执行，  man xxx后默认的；  [man passwd]
+				5 = /etc/passwd 文件格式	[man 5 passwd]
+				2 = 系统的 API ，开发用		[man 2 syslog]
+				3 = 库
+				4 = 特殊目录 例如/dev
+				6 = 游戏
+				7 = 宏，环境，字符
+				8 = 系统管理员命令			[man fdisk 的默认]
+				9 = kernel内核
+
+info
+	info ls
+	比 man命令 多链接功能（目录中带 *号部分）
+
+==============================================
+readme文件 - 找解决方案 [学习某个软件]
+	ls /usr/share/doc/xxxx2-2.02.100/
+	howto 文档	  [参考网站 tldp.org]
+	google/baidu	
+
+
+
+
+
+
 
 
 
