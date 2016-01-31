@@ -1,6 +1,35 @@
-[root@lixuefei root]#   这个是命令， 输入的命令有两类 = windows下双击文件
+内部命令、外部命令目的： 你执行的目的，在哪执行的，它通过什么去执行出来
 
-ls命令会调用一个库 alibc.so
+[root@lixuefei root]#   这个是命令， 输入的命令有两类 ： 内部命令 和 外部命令
+
+外部命令 ： 绕过shell，去调用/bin/ls
+内部命令 ： 在shell中提供的 （mv /bin/echo ,再执行echo shell 它仍然可以执行，所以它是内部命令）
+
+ls /bin/*sh   	启动命令行的方式，主流 /bin/bash,  
+shell - shell是和人对话的接口，任何执行都是通过shell对接，当运行ls命令时会调用一个库alibc.so，与内核去沟通  = windows下双击文件
+
+==============================================
+
+help xxxx [查询shell 内部命令]
+	help echo
+	但无法查询 外部命令，例如 help ls
+
+xxx命令 --help [查询 外部命令]
+	ls --help
+
+man xxx命令
+	man ls
+
+========================================================
+怎么用： 不用记忆各个参数，只要用时，能快速 help出即可；
+
+
+
+
+
+
+
+
 
 
 
