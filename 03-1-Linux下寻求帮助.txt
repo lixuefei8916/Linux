@@ -1,0 +1,7 @@
+[root@lixuefei root]#   这个是命令， 输入的命令有两类 = windows下双击文件
+
+ls命令会调用一个库 alibc.so
+
+
+
+
