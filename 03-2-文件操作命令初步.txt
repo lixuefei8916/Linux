@@ -72,10 +72,29 @@ more / less 分页查看
 
 vi 编辑文件
 	vi /etc/passwd
-	
+	i 						编辑模式
+
+	u 						撤销编辑
+	ctrl+r 					恢复被撤销的
+
+	:						命令模式
+	:q						退出
+	:q!						不保存 & 推出
+	:qw						保存 & 退出
+
+alias 别名
+	alias 					查看
+	alias lxf="ls -l"		创建别名 ， 不会永久生效，直至下次重启
+	unalias lxf 			取消别名
+
+	vi ~/.bashrc 			
 
 
+useradd  添加用户
+	useradd lxftest1		无法登录.[passwd后才可登录]
 
+passwd  更改密码
+	passwd lxftest1
 
 
 
