@@ -43,8 +43,13 @@ touch - 创建空文件或更新文件时间
 	cd /home/lxf
 	cd ../../etc/sysconfig
 
+	pwd 查看绝对路径
 
-
+cd高级
+	cd -	切换到上一个目录， cd /home/lxf   cd /etc/sysconfig/network ,再cd - 时，回到/home/lxf目录
+	cd 		主目录 /home/lxf or /root | echo $HOME
+	cd ~lxf 
+	cd ~root	如果是 普通用户， 不可cd进root目录
 
 
 
