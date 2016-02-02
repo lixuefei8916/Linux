@@ -11,8 +11,20 @@ ls - 查看文件
 	ls -F		如果是目录，以/显示， 如果可执行，以为*显示
 
 mv - 移动或重命名
+	mv a /tmp/c 		移动文件a 到/tmp目录下，同时改名为c
+	mv /tmp/a b
+	mv b c 			把 b 改名为 c
+
+cp - 拷贝
+	cp c /tmp/d
+	cp -r .kde/ /tmp		把 .kde文件夹拷贝到 /tmp目录下
+
 
 rm - 删除文件
+	alias  rm = rm -i		-i表示交互模式，和用户确认一下
+	rm c 					询问是否删除
+	rm -r .kde/				每一个都回问， 如果有100个文件， 会问100次
+	rm -rf .kde/			不询问
 
 touch - 创建空文件或更新文件时间
 	touch a.txt
@@ -23,6 +35,13 @@ touch - 创建空文件或更新文件时间
 
 	stat a.txt		查看文件时间
 
+相对路径 和 绝对路径
+	.		 当前目录
+	cd ..	 回上级目录
+	cd /bin  
+
+	cd /home/lxf
+	cd ../../etc/sysconfig
 
 
 
