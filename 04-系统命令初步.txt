@@ -56,11 +56,53 @@ mount 使用关盘、优盘等
 	光盘
 	mount -t iso9660 /dev/cdrom /mnt/cdrom 
 
+	windows共享
+	mount //192.168.0.1/CentOS /mnt
+	mount -t cifs //192.168.0.1/CentOS /mnt
+	mount -t cifs -o username=administrator //192.168.0.1/CentOS /mnt
 
+	Linux共享(NFS)
+	mount 192.168.0.254:/var/ftp/pub /mnt
 
+	iso镜像
+	cat /dev/cdrom > a.iso
+	mount -t iso9660 -o loop a.iso /mnt
 
+du 显示磁盘用量
+	du		当前目录下所有文件
+	ls -l   也可以查看，但是并不是实际占用大小；尤其是文件夹、例如 Desktop才占用4k，实际里面有1000MB
 
+	du a.iso
+	du -s Desktop	看文件夹大小
+	du -sh Desktop   -h = 人类可读的模式
 
+df 分区的状态
+	df -h
+
+su 切换用户
+	su -
+	su lxf
+	su -lxf		彻底切换过去，启动的文件会更多
+
+	exit		退出切换，千万不要 su回去，否则bash
+
+ssh 远程登录
+	ssh 192.168.1.231		root身份
+	exit					退出登录
+
+	ssh lxf@192.168.1.234
+
+exit 		关闭
+logout		控制台打开的第一个shell 
+
+shutdown -h now
+init 0		把服务关闭，把进程kill掉，再halt -p -f
+halt -p -f  不关闭服务，直接拔掉电源
+poweroff	不关闭服务，直接拔掉电源
+
+shutdown -r now
+init6
+reboot 		(不关闭服务，直接拔掉电源)
 
 
 
