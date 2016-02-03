@@ -17,10 +17,44 @@ ifconfig 改自己的ip地址
 
 
 uname 显示内核版本、编译信息等
-
+	uname					回显: Linux
+	uname -a				回显：Linux + 主机名 + 内核版本号 + 编译时间 + 在什么平台编译 + 支持什么平台
+	uname -r			 	回显：内核版本号
 
 id 显示用户的信息
+	id 						回显：帐号信息 | uid=0是系统中的老大root
+	id -u 					回显：uid User的id
+	id -g					回显：gid 组id | 如果 gid ！=0， 则不让安装
 
+date 日期的查看
+	date
+	date +%d 		日
+	     +%m 		月
+	     +%y		年
+
+	date +%m%d 		月+日
+	touch `date +%m%d`.log		创建文件：0203.log
+
+cal 显示日历
+	cal
+	cal 2016
+
+file 查看文件类型 （没有扩展名）
+	file a.txt
+
+mount 使用关盘、优盘等
+	mount /dev/设备文件(hda,sda1,sda2)
+	mount /dev/sda1 /
+	mount /dev/sda1 /mnt 			|  此时，ls /mnt 里是linux 从 \ 开始的目录
+
+	mount 						查看加载的所有资源
+	umount /mnt 				取消 /mnt的挂载 | 不能在这个目录下 umount |
+
+	优盘
+	mount -t vfat /dev/sd(b)1 /mnt/usb	| linux可以自动识别文件系统，但若无法自动识别，需要这样手工
+
+	光盘
+	mount -t iso9660 /dev/cdrom /mnt/cdrom 
 
 
 
