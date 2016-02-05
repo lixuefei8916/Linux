@@ -8,32 +8,45 @@
 	/etc/shadow	| 密码的md5加密-单项， 修改密码最小时常， 密码过期时间， 过期提醒天数， 若最后一个是：1，则表示linux出场时，这个密码就被禁用了
 
 	userdel lxf	| 但不会把主目录删除
+	userdel -r lxf  |  彻底删除，包括lxf的家目录和mail
+
+	帐号密码迁移到B机器 ： cp /etc/passwd  /etc/shadow  /etc/group /etc/gshadow + scp -r /home/* 192.168.0.254:/home/ 到B机器中
+
+	密码属性配置文件： vi /etc/login.defs	| PASS_MAX+DYS 9999    PASS_MIN_DAYS 0    PASS_MAIN_LEN 5 - 密码长度
+
+
+	usermod		改用户属性（改配置文件）
+				1个账户，属于多个组		usermod -G mysql,ttt lxf , 再运行 usermod -G aaa lxf时，lxf只属于aaa组，覆盖上一个组命令
+
+
+
+
 
 
 	groupadd
 	/etc/group 	| 组名：x：组id：组成员 | root:x:0:root,lxf -- lxf是管理员吗？【不是】，
 					linux至区分两种帐号， uid = 0（管理员） 和 uid 不等于0（平民）
 
+
+
 	gpasswd			组的密码用的很少
 	/etc/gshadow | 
+	gpasswd -M lxf,lxf1,lxf2 root   把多个账户加入到一个组中（root组中）
 
 	groupdel
 
-	帐号密码迁移到B机器 ： cp /etc/passwd  /etc/shadow  /etc/group /etc/gshadow + scp -r /home/* 192.168.0.254:/home/ 到B机器中
-
-2. 用户、密码有关文件
-
-3. 用户信息的管理
-
-4. 组文件
-
-5. 查看当前用户状态
-
-6. 用户交互工具使用
+	无意中 /etc/passwd  /etc/shadow删除怎么办？
+	进入单用户， 把/etc/passwd- 改为passwd    把/etc/shadow- 改为shadow
 
 
+当前系统中登录的账户
+	users
+	who		登录在哪个地方  tty1-第1个控制台，pts/0虚拟登录，
+	w 		最全的信息 ： 什么时候登录，空闲时间，占用CPU时间，运行什么命令
 
+	杀掉某帐号的登录； skill -9 pts/x
 
+	
 
 
 
