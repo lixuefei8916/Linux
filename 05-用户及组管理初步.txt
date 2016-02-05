@@ -46,7 +46,9 @@
 
 	杀掉某帐号的登录； skill -9 pts/x
 
-	
+	last
+	lastlog
+	finger lxf
 
 
 
