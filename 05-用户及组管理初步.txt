@@ -1,0 +1,42 @@
+05-用户及组管理初步
+
+1. 新建用户和组的命令
+	useradd lxf	| /etc/passwd + /etc/shadow + /etc/group + /etc/gshadow + mkdir /home/lxf + cp -r /etc/skel/.* /home/lxf/ + chown -R lxf.lxf /home/lxf
+				  /etc/passwd   lxf:  : | 冒号中间，如果有x，则表示有密码，如果没有x，则表示登录时不需要密码
+
+	passwd lxf	| 
+	/etc/shadow	| 密码的md5加密-单项， 修改密码最小时常， 密码过期时间， 过期提醒天数， 若最后一个是：1，则表示linux出场时，这个密码就被禁用了
+
+	userdel lxf	| 但不会把主目录删除
+
+
+	groupadd
+	/etc/group 	| 组名：x：组id：组成员 | root:x:0:root,lxf -- lxf是管理员吗？【不是】，
+					linux至区分两种帐号， uid = 0（管理员） 和 uid 不等于0（平民）
+
+	gpasswd			组的密码用的很少
+	/etc/gshadow | 
+
+	groupdel
+
+	帐号密码迁移到B机器 ： cp /etc/passwd  /etc/shadow  /etc/group /etc/gshadow + scp -r /home/* 192.168.0.254:/home/ 到B机器中
+
+2. 用户、密码有关文件
+
+3. 用户信息的管理
+
+4. 组文件
+
+5. 查看当前用户状态
+
+6. 用户交互工具使用
+
+
+
+
+
+
+
+
+
+
