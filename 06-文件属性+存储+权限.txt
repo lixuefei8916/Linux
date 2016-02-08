@@ -1,0 +1,31 @@
+06-文件属性+存储+权限
+
+1. Linux文件基本概念
+	属性构成：
+		类型、访问权限、连接数、文件拥有者、文件拥有组、修改时间，文件名
+
+	- 	普通文件
+	d 	目录
+	l 	链接类型文件
+	b	块设备文件	/dev/sda 
+			cat它的话，是从第1个字节mbr开始，直到最后，所以不要修改和重定向这个文件；
+			镜像-硬盘 ： dd if=/dev/sda of=/mnt/a.img	[ /mnt中挂载了 移动硬盘or U盘 ]
+			镜像-分区 ： dd if=/dev/sda1 of=/mnt/a.img	[ /mnt中挂载了 移动硬盘or U盘 ]
+
+	c	字符设备文件	/dev/tty1
+
+	s 	socket网络文件	ls -al /tmp/.font-unix/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
