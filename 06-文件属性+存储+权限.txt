@@ -49,9 +49,25 @@
 		chmod 046 		---r--rw- 	若普通lxf账户，此时无任何权限，尽管lxf组有r，因为linux没有权限叠加
 
 	连接数
-		
+		从文件存储考虑
+		文件名指向 innode号，文件ll的属性信息存储在inode中，inode索引数个block（存储文件内容）
+		此时 将/etc的innode号指向 已有的一个号码， 这时，连接数为2，即可从两个地方进入；
 
+		touch /tmp/a.txt
+		ln a.txt b.txt 			b也会占用100MB， a和b同时占用100MB，而不是200MB
+		ln b.txt c.txt
+		ll 发现，他们指向同一个硬链接
+		删除：	此时若把 a.txt删除，b.txt仍存在，b.txt删除后，c.txt仍然存在
 
+	ln -s 软链接 ， 全新文件
+		ln -s /etc eee  ，当访问eee文件时，就进入/etc目录下了
+		-rwxr--r-- 2 root  root  0 Aug 30 19:53 1.txt  			[ln -a 硬链接，同主文件，并且链接数+1 ]
+	    -rwxr--r-- 2 root  root  0 Aug 30 19:53 2.txt  			[ln -a 硬链接，同主文件，并且链接数+1 ]
+		lrwxrwxrwx 1 root  root  5 Aug 31 00:49 into -> 1.txt  	[ln -s 软链接， 快捷方式]
+
+	用途：
+		硬链接用的非常少，例如怕被文件删除，其他地方弄个硬链接（太隐蔽，必须要根据 链接数 才能判断出是硬链接还是软连接）
+		软连接最大，快捷方式；
 
 
 
