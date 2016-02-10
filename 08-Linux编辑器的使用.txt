@@ -1,0 +1,20 @@
+08-Linux编辑器的使用
+
+i I a A o O
+u 是撤销
+dd 删除
+
+:15 			到第15行
+:w aaa.bak  	另存为
+:r /etc/1.txt   在当前行，加入/etc/1.txt中的内容
+:r !ls  		当前行加入命令后的结果
+
+:w >> aaa.bak   追加写进 aaa.bak
+:1,5 w >> aaa.bak   1-5行追加写入 aaa.bak
+
+:1,$s/lxf/lixuefei/ g	-	1到$(最后一行),把lxf替换为lixuefei   g是不询问
+
+
+
+
+
