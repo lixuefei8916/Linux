@@ -85,17 +85,29 @@ grep - 搜索 文件里的字符
 			   bzip2 -d a.txt.bz2
 
 tar包使用
-	-c 	文件备份出来
+	-c 	创建：文件备份出来
 	-v  过程输出
-	-x  从一个文件解出备份
+	-x  解压：从一个文件解出备份
 	-r  追加：将文件添加入已存在的文件夹中
 	-f  文件
+	-z  压缩
 
-	tar cvf /tmp/root.tar .  	|  把 .当前目录打包到 /tmp/root.tar中
-	tar rvf /tmp/root.tar /etc/passwd /etc/shadow   | 把 /etc/passwd shadow 也加入压缩包中
-	
+	打包 - tar cvf /tmp/root.tar .  	|  把 .当前目录打包到 /tmp/root.tar中
+		   tar cvf /tmp/root.tar /root  
+	追加 - tar rvf /tmp/root.tar /etc/passwd /etc/shadow   | 把 /etc/passwd shadow 也加入压缩包中
+
+	解包 - tar xvf /tmp/root.tar 				解压当前目录
+		   tar xvf /tmp/root.tar -C /tmp/lxf1  	解压到/tmp/lxf1目录中
+
+	打包+压缩 - tar cvzf /tmp/root.tar.gz /etc/passwd
+	解包+解压缩- tar xvzf /tmp/root.tar.gz -C /tmp/lxf1
+
+	使用：
+		备份-磁带机 	tar cvf /dev/st0 /home/lxf1 	把lxf1目录中所有文件，备份到磁带机中
 
 
+zip a.zip /etc/passwd /etc/shadow
+unzip a.zip
 
 
 
