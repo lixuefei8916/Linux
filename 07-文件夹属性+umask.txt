@@ -1,0 +1,102 @@
+07 文件夹属性+权限+umask
+
+	修改所属User和group
+	chown lxf 0605.log
+	chwon -R lxf.lxfgroup .		|  .是当前目录， lxf是User，lxfgroup是组名
+
+	du 实际占用大小: du 0605.log
+
+	ls -ld查看文件夹权限： ls -ld testdir/  [-ld 是看文件夹本身权限；如果不加d，是看文件夹下面的权限]
+
+	文件夹的 rwx
+		文件夹的 r 	- ls查看目录结构
+		文件夹的 w  - 增改删查目录中任何文件
+		文件夹的 x  - cd 进去 [最重要，例如一个web，因漏洞被别人控制了，所以要把权限设置好]
+
+		r-x = 755(默认的权限) = 让other用户 ls，cd， 但不能w修改
+		-wx = 不能ls，但能增改删查(即便vi 的 a.txt对other用户无改权限时，仍然能成功) 【chmod o=wx lxftest/ 】
+		【所以文件夹的 w 权限很重要，也很危险；】
+
+		wxt [改进]
+			wxt权限 ：可以  cd  touch  rm(自己的文件)  vi(自己的文件)
+			chmod o+t /tmp/lxftest/  | /tmp的权限 = chmod 1777 /tmp
+			drwxr-xr-t 2 root  root  4096 Aug 31 01:27 lxftest
+			这样，可以避免 增改删查别人的文件；
+
+	SUID SGID Sticky
+
+	web网站目录的权限应该如何设置？
+		如果黑客控制了apche，那么他的身份是apache，它想改写/var/www/html是不可能的[因为该目录属于root，other权限是r-x]
+		但如果把该文件的权限改为 apache就非常危险了
+
+	umask创建文件、文件夹的默认权限： 777 - umask值 = 文件默认权限值
+		drwxrwxr-x 2 lxf1 lxf1 4096 Aug 31 03:11 lxf1dir
+        -rw-rw-r-- 1 lxf1 lxf1    0 Aug 31 03:11 lxf1.txt
+        drwxr-xr-x 2 root root 4096 Aug 31 03:10 rootdir
+        -rw-r--r-- 1 root root    0 Aug 31 03:10 root.txt
+        所以 root 755 644
+             lxf1 775 664
+             两个用户创建出来的文件权限是不一样的
+
+        一般用户的umask = 002
+        root的umask = 0022
+        	755 + 022 = 777  |  文件夹 777 - umask
+        	644 + 022 = 666  |	文件   777 - umask
+        
+        修改 umask 
+        	umask 222 , touch lxf1_1.txt  的文件 -r--r--r--
+        	vi /etc/bashrc
+
+目录
+	可预知的目录
+		例如httpd /usr/bin/httpd， 为什么会知道？ 因为如同windows : c:\profiles files\Office office2013
+
+		/bin 	可执行文件(所有人都能执行)
+		/sbin 	可执行文件(管理员可用,lxf1账户不能使用ifconfig,但可以 /sbin/ifconfig)
+				LXF1 : echo $PATH   /usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/home/lxf1/bin
+				root : echo $PATH   /usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
+        
+		/usr 	自装软件 = c:\program files [不是系统本身的，自己去安装的]
+				/usr/bin	后庄的命令 (例如 office2013) - 所有人都能执行的: which vim
+				/usr/sbin	后装的命令 (例如 office2013) - 管理员的服务: which httpd
+
+		/dev 	设备文件
+				/dev/sda - 第一块硬盘  /dev/sda1第1个分区 /dev/sda2第2个分区
+				/dev/sdb - 第二块硬盘
+
+		/home 	用户的目录
+
+		/lib 	库文件(.so动态链接库 ， 类似windows的 dll文件)
+				/lib/modules - 内核模块 = /boot/vmlinuz-xx.xx.xx.EL  [两个是配套的]
+
+		/media  光盘，图形界面下自动加载， shell命令行下不加载，仍需要mount /dev/cdrom
+
+		/proc 	这里都是假的虚拟文件，如果不启动系统，这里是空的，这里都是内存当中的值
+
+		/tmp 	临时文件
+		/var 	可变的文件，例如log日志、mail、spool/crom计划任务
+		/boot 	放kernel 和 grub引导记录
+		/etc 	放配置（例如windows的注册表）
+		/initrd 空的，如果删除这个系统无法启动，因为系统时需要这个加载点；
+		/lost+found  如果系统坏了，碎片丢失了， 会把blocak拿来放到 /lost+found中
+		/misc   autofs时用
+		/opt    默认无东西
+		/root 	root账户主目录
+		/sys 	与/proc一样，找硬件的信息
+
+	mysql在哪？
+		mysql的库文件放在哪？  /usr/lib/mysql/
+		mysql的可执行文件在哪？ /usr/sbin/mysql
+		mysql的客户端 			/usr/bin/mysql
+
+
+
+
+
+
+
+
+
+
+
+
