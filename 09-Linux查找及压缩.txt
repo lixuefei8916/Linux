@@ -22,7 +22,8 @@ whereis - 可执行文件(which类似) + .so的库文件
 	whereis ls ： 执行目录，man目录
 	whereis libutil-2.3.4.so
 
-slocate - locate - 
+slocate - locate - updatedb
+	查找全目录
 	ls `which locate` -l 后发现 是 /usr/bin/locate 的软连接
 	locate 2.txt / locate pip-1.5.4.tar.gz
 	
@@ -31,6 +32,67 @@ slocate - locate -
 		updatedb
 		每天凌晨4:03自动更新 cat /etc/cron.daily/slocate.cron 中执行
 
+	locate -r '1*.tar.*'   1*表示，任意多个1
+
+find - 
+	find 1.tar  		在当前目录下查找 
+	用 文件名 查找：	  find / -name 1.tar 			从 /开始 ，-name名字是 1.tar的文件
+	用 拥有者 查找：      find /home -user lxf1 -ls		从 /home开始， 查找 User=lxf1的账户的文件， 查到后ls这些文件
+	用 User+Group查找：   find /home -user lxf1 -a -group lxf1	从 /home开始， 查找 User=lxf1账户名 + Group=lxf1组名的文件
+	用 文件类型 ：		  find /home -type d 			查找目录
+	用 权限				  -perm
+	用 大小				  -size
+	用 时间				  -mtime
+
+	与条件：-a				find /home -user lxf1 -a -group lxf1	User=lxf1账户名   +  Group=lxf1组名的文件
+	或条件：-o				find /home -user lxf1 -0 -group lxf1	User=lxf1账户名 或者 Group=lxf1组名的文件
+
+	模糊查找： find / -name "*1.tar"
+	- ls 查找后ls： find /etc -name "*network*" -ls
+
+	-exec 查找后运行命令： 
+		-ok   询问y/n 后执行
+		-exec 后面跟命令
+		{}    存查找结果
+
+		查找后得知这是什么类型的文件 : find /etc -name "*network*" -exec file {} \; 
+		查找后删除 ： find /etc -name "1.txt" -exec rm {} \;
+		查找后删除 ： find /etc -name "1.txt" -ok rm {} \;
+
+	实用：
+		1. 从/开始，不应该有任何目录是 777 ：  find / -perm -777 -a -type d -ls [权限是777的目录]
+		
+grep - 搜索 文件里的字符
+	grep lxf1 /etc/passwd
+	grep -R lxf1 /etc 		/etc下凡有lxf1的全部显示出来
+	grep -R -l lxf1 /etc
+
+横向比较
+	1. 装了一个软件，不知道装到哪个文件下了
+		updatedb + slocate
+		find 
+
+压缩工具
+	1. gzip 压缩 - 压缩比例较高
+		gzip A.txt   压缩后 A.txt.gz ，原文件小时
+	2. gzip 解压缩
+		gunzip A.txt.gz
+		gzip -d A.txt.gz
+
+	3. bzip2 压缩比率很高
+		bzip2 a.txt
+		解压缩 bunzip2 a.txt.bz2
+			   bzip2 -d a.txt.bz2
+
+tar包使用
+	-c 	文件备份出来
+	-v  过程输出
+	-x  从一个文件解出备份
+	-r  追加：将文件添加入已存在的文件夹中
+	-f  文件
+
+	tar cvf /tmp/root.tar .  	|  把 .当前目录打包到 /tmp/root.tar中
+	tar rvf /tmp/root.tar /etc/passwd /etc/shadow   | 把 /etc/passwd shadow 也加入压缩包中
 	
 
 
