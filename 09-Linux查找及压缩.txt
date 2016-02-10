@@ -1,0 +1,40 @@
+09-Linux查找及压缩
+
+查找
+	装了一个程序，不知道装哪去了，所以需要各种命令去查找；
+
+which - 可执行文件
+	which ls / which vim / which vi / 
+	如果有多个地方都有该命令，则ls会告诉优先执行哪个
+	which查找的地方：
+		[echo $PATH 所指定的位置]
+		/usr/kerberos/sbin
+		/usr/kerberos/bin
+		/usr/local/sbin
+		/usr/local/bin
+		/sbin
+		/bin
+		/usr/sbin
+		/usr/bin
+		/root/bin
+
+whereis - 可执行文件(which类似) + .so的库文件
+	whereis ls ： 执行目录，man目录
+	whereis libutil-2.3.4.so
+
+slocate - locate - 
+	ls `which locate` -l 后发现 是 /usr/bin/locate 的软连接
+	locate 2.txt / locate pip-1.5.4.tar.gz
+	
+	更新数据库：
+		用locate查找时，它并未查找文件，而是查它的数据库，所以又时会说 is more than 8 days old
+		updatedb
+		每天凌晨4:03自动更新 cat /etc/cron.daily/slocate.cron 中执行
+
+	
+
+
+
+
+
+
