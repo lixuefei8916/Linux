@@ -1,6 +1,10 @@
 10-文本处理及正则表达式
 
-grep `\<lxf\>` /etc/passwd 		\< = 以xxx为开头 ； \> = 以xxx为结尾
+grep
+	grep `\<lxf\>` /etc/passwd 		\< = 以xxx为开头 ； \> = 以xxx为结尾
+	-A5  上面5行
+	-B5  下面5行
+
 
 cat
 	cat /etc/passwd
@@ -42,8 +46,15 @@ sort  排序
 
 	把占用前3个文件删除： du | sort -n -r | head -n 3 | cut -f2 [-r反向 -n按照数字顺序排序 | head -n 3 前3行 | 只要第2列 ]
 
+wc 	统计 ： 行数  67个单词  字符数量
+	-l  ： 行数			wc -l /etc/passwd  只显示行数
+	-w  ：单词数		wc -w /etc/passwd
+	-c  : 字符数  		wc -c /etc/passwd
 
-
+uniq  排重
+	cut -d: -f7 /etc/passwd | uniq
+	cut -d: -f7 /etc/passwd | sort | uniq 
+	cut -d: -f7 /etc/passwd | sort | uniq | wc -l
 
 
 
