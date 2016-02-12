@@ -1,0 +1,54 @@
+10-文本处理及正则表达式
+
+grep `\<lxf\>` /etc/passwd 		\< = 以xxx为开头 ； \> = 以xxx为结尾
+
+cat
+	cat /etc/passwd
+
+less 
+	less /etc/passwd
+	可上下翻页 + 查找
+more
+	more /etc/passwd
+	只能往下翻页
+
+ head 头10行
+
+ tail 末尾10行
+  	tail -n 20  看末尾20行
+ 	tail -f /var/log/messages		一直死盯这个日志，若有新日志，则直接显示出来
+
+
+diff	文件差异
+
+cut 
+	-d 		-	分隔符
+	-f1 	-   第1列
+	-c1-3	-	第1 - 3 个字符
+
+
+	cut -d: -f1 /etc/passwd					这样就把所有名字列出来了
+	grep lxf1 /etc/passwd | cut -d: -f7   	查看lxf1账户的登录shell是什么
+	ctu -c1-3 /etc/passwd 					第1 - 3个字符
+
+
+sort  排序
+	-t:  - 分隔符是：
+	+2 	 - 从第2列
+	-n   - 以数字方式排序,以ASIC码排序 | 如果不加-n，它先排第1个字符： 1 11 111, 2 22,而不是 12345的顺序
+	-r   - 反向排序 
+
+	sort -t: +2 -n /etc/passwd > /tmp/a.txt
+
+	把占用前3个文件删除： du | sort -n -r | head -n 3 | cut -f2 [-r反向 -n按照数字顺序排序 | head -n 3 前3行 | 只要第2列 ]
+
+
+
+
+
+
+
+
+
+
+
