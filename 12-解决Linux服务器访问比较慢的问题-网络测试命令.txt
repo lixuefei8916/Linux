@@ -1,0 +1,74 @@
+12-解决Linux服务器访问比较慢的问题-网络测试命令
+
+0. 机器性能
+	top
+	vmstat
+	netstat
+		netstat -antup  可查看被监听的状态，LISTEN(tcp), (udp-无)，
+		netstat -antup | wc -l   【如果几千个连接， 肯定受攻击了】
+		很多 ESTABLISHED 那确实再看网页，但也有可能是CC攻击，不断的访问你的网页 (1个IP，N多个es状态)
+		多数不是 ES状态，这种是DDOS攻击，syn-flood 泛洪攻击 | 冒充A人访问，把包回给A人；
+
+
+
+1. 测试到服务器某个端口的掉包率
+	ping www.mywebside.com  直至 CTRL+C 结束
+	查看 time=xx ms 毫秒
+
+	telnet www.mywebside.com 80  [查看80端口是否畅通]
+	GET /  【获得详细信息】
+
+	traceroute www.lxf.com   
+
+	mtr www.lxf.com  [每个节点的延迟率]
+
+	iptraf抓包
+	tcpdump抓包
+	wireshark抓包
+
+2. DNS配置
+
+3. 服务器网段的ARP状态
+	内网有arp病毒，被欺骗了
+	arping 默认网关的IP (如果有2个mac，则说明有ARP欺骗)(假网关的响应速度通常很快，所以 reply少的可能是真正的网关)
+
+	绑定arp网关 ： arp -s ip地址 mac地址
+
+4. 服务器流量是否正常（工具）
+	压力测试工具（数字上是否慢，慢多少）
+	ab	-n 1000 -c 1000 http://www.lxf.com  (模拟1000个客户端，总共1000个查询， 平均1个客户端请求1次)
+		Time per request:   每一处理的时间
+							每秒钟处理多少请求
+
+
+5. 调整网络内核参数，与正常服务器做对比
+	iptable -L 			防火墙的规则,查看是否有拦截策略
+	iptable -t nat -L   防火墙的规则,查看是否有拦截策略
+
+	mount
+	proc on /proc type proc(rw)		这里的都不是真正的文件,显示内存中实际的值
+	mount -t proc none /aaa/
+	ls /aaa/   (= /proc = 显示内存中实际的值)
+
+	特殊的目录 /proc/sys 绝大多数可以修改
+		cat /proc/sys/net/ipv4/icmp_echo_ignore_all			0  = 没有设置 = 忽略所有的echo包吗？【不忽略，所以可以ping通】
+		echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all    1  = 忽略，此时无法ping通
+
+		ping -b 的广播包
+		echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts   1 = 关闭    0 = 可以 ping -b的广播包
+		ping 192.168.1.0 -b  [会有多少个 ip 回应呢？]
+
+		
+
+
+
+
+
+
+6. 检验是否有改进
+
+
+
+
+
+
