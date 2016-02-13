@@ -57,9 +57,49 @@ uniq  排重
 	cut -d: -f7 /etc/passwd | sort | uniq | wc -l
 
 
+diff 对比两个文件的不同 [对比配置文件，编写程序v1与v2的对比]
+	diff a.txt b.txt
+		2a3					第2行的位置，多了一个第3行
+		< ttt 				< = 多的内容：  ttt
+		4c5 				第1个文件的第4行， 和第2个文件的第5行
+		< 123456 			第1个文件的第4行是 123456
+		------
+		< 123456ttttttt     第2个文件的第5行是 123456tttttt
 
+patch -p0 < patch.2.6.9  (patch文件由diff生成)
 
+正则表达式时，一定要加单引号 ''
+	echo *		返回： 目录中的文件(ls)的结果 = a.txt  b.txt  c.txt
+	echo '*'	返回:*
 
+	. 			任意字符 （0-9 a-z A-Z）
+	* 			多个 *号前面的字符，例如 a* = aa 、 aaa 、 aaaa
+	.* 			任意字符、词组、句子(如果没有结束条件，即显示全文)('.*lxf$')
 
+	$ 			结尾，例如 'lxf$' = 以lxf结尾的
+	^ 			开头，例如 '^lxf' = 以lxf开头的
+	^$ 			空行 = ^$ = 开头就是结尾
 
+	-v 			反选
+				#注释不要		grep -v '^#'
+				空行不要		grep -v '^$'    [ ^$ 开头就是结尾 = 空行]
+
+	匹配字符    \.   \*     （\叫做脱意符）
+
+	\<s k\> 	匹配单词， \<s = 以s开头的单词，  k\> = 以什么为结尾
+
+	a\{18\}  	a重复18次
+				超过40+字母的单词  grep '.\{40,\}' /usr/share/dict/words
+				搜索出il8n的全程 ：grep '^i.\{18\}n$' /usr/lshare/dict/words  [以i开头，以n结尾， 中间有18个不知道的字母]
+
+	[] 			grep '^[abc]' = 以 a开头 or b开头 or c开头
+				^[a-z] = 以小写字母开头的
+				[^a-z] = 非 小写字母开头的
+
+实例
+	1. 配置文件精选 (/etc/squid/squid.conf 注释部分不显示 + 空行不显示)
+		cat /etc/squid/squid.conf | grep -v '^#' | grep -v '^$'   【此时3400行变成了35行】
+
+	2. 替换 /etc/passwd 中 lxf账户的家目录为 /home/lixuefei
+		：%s/\/lxf/lixuefei/g
 
