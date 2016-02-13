@@ -50,7 +50,7 @@
 	mount -t proc none /aaa/
 	ls /aaa/   (= /proc = 显示内存中实际的值)
 
-	特殊的目录 /proc/sys 绝大多数可以修改
+	特殊的目录 /proc/sys 绝大多数可以修改(当下生效)
 		cat /proc/sys/net/ipv4/icmp_echo_ignore_all			0  = 没有设置 = 忽略所有的echo包吗？【不忽略，所以可以ping通】
 		echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all    1  = 忽略，此时无法ping通
 
@@ -58,12 +58,21 @@
 		echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts   1 = 关闭    0 = 可以 ping -b的广播包
 		ping 192.168.1.0 -b  [会有多少个 ip 回应呢？]
 
-		
+	sysctl 修改内核参数，除非很了解很合，否则不用 (当下生效)
+		sysctl -w net.ipv4.icmp__ignore_broadcasts=1
+		sysctl -w fs.file-max=100000
 
+	vi /etc/sysctl.conf (永久生效)
+		net.ipv4.icmp__ignore_broadcasts = 0
+		net.ipv4.ip_forward = 1   [路由模式，1个内网网卡，1个公网网卡，做路由器，做防火墙]
 
+		sysctl -p  [读取文件，将修改部分立刻生效， 不用重启电脑了]
 
-
-
+	秘籍
+		与正常服务器做对比,无论知道是否知道内核参数与否
+		导出配置 ： sysctl -a > /tmp/a.txt
+		放到另一台： scp /tmp/a.txt 192.168.1.101
+		导入到另一台电脑： sysctl -p -f a.txt    看是否解决，来判断是否是参数问题 
 
 6. 检验是否有改进
 
