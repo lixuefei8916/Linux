@@ -1,0 +1,63 @@
+11-输入输出重定向及管道
+
+Linux工具/命令分为三种：
+	过滤器 				ls, cat ， 从文件中读，输出到屏幕上 = 把一个来源作为输入，再输出，标准输入-键盘，标准输出-显示器
+	编辑器				vi - 不能做输入输出重定向
+	交互式的工具		syttem-config-networ-tui
+
+
+标准输入输出
+	输入： stdin
+	输出： std
+	错误： stderr
+
+输出重定向
+	> (新建，清空)
+		ls > /tmp/a.txt 		此时屏幕没有输出(清空a.txt,然后写入)
+
+	2> （错误输出) 
+		ls /ttttt 2> /tmp/a.txt  (清空a.txt,然后写入)
+
+	2>&1 (正确+错误 重定向)
+		find / -name lxf > /tmp/findfile 2>&1  (清空findfile,然后写入)
+		find / -name lxf &> /tmp/findfile     (清空findfile,然后写入)
+
+	>> （追加 重定向 （不清空））
+		echo aaa >> a.txt    (追加，不清空)
+
+	<< 等待输入，直到 CTRL +D
+		cat << a.txt
+		输入内容，直至 CTRL + D
+
+输入重定向
+	<
+		tr "a-z" "A-Z" /etc/passwd   此时报错，因为tr不支持 文件
+		tr "a-z" "A-Z" < /etc/passwd
+
+cat > a.txt << EEE
+	随意输入，直至输入 EEE 结束
+
+
+
+tee tmp.txt | wc -l
+	复制结果，一个给 tmp.txt显示详细内容， 一份给 wc -l统计行数 （否则只能显示行数，无法看详细过滤结果）
+tee /dev/pts/2 | wc -l 
+	显示 过滤结果 + wc统计行数
+
+【用于本页创建文件， 用脚本，所以只能重定向方式】
+
+linux有多少个文件		ls /etc/ | wc -l
+linux有多少个文件夹		ls /etc/ -l | grep '^d' | wc -l
+查看多少个软连接		ls /etc/ -l | grep '^l' | tee tmp.txt | wc -l   [tee 是把结果放入tmp.txt , 这样即可得知 结果，也可wc显示行数]
+						ls /etc/ -l | grep '^l' | tee /dev/pts/2 | wc -l   [tee 是把结果放入tmp.txt , 这样即可得知 结果，也可wc显示行数]
+
+
+tr可做密码加密
+	tr '"a-m""n-z""A-M""N-Z"' '"N-Z""A-M""n-z""a-m"'   [把a替换为N，把m替换为Z]
+	输入 i love you very much
+	回显 V YBIR LBH IREL ZHPU
+
+加密/etc/passwd
+	tr '"a-m""n-z""A-M""N-Z"' '"N-Z""A-M""n-z""a-m"' < /etc/passwd > abc.txt
+	tr '"a-m""n-z""A-M""N-Z"' '"N-Z""A-M""n-z""a-m"' < /etc/passwd | mail -s "mail主题" lxf@lxf.com
+
