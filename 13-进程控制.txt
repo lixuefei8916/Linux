@@ -1,0 +1,133 @@
+Linux 系统状态检测及进程控制
+
+1. 系统信息的收集
+	hostname	
+		vi /etc/hosts
+		127.0.0.1		localhost.localdomain localhost
+		192.168.58.128 	lxf.com server1 		[可以让启动速度更快]
+
+		vi /etc/sysconfig/network  永久修改主机名
+		HOSTNAME=lxf1
+
+	uname -a 
+
+	last 在什么时候被启动过
+
+	lastlog 看每个人最后一次登录时间
+
+2.系统状态
+	df 看硬盘是否快满了
+
+	du 看文件大小
+		du -sh /etc   看/etc目录的大小
+
+	free 看内存大小
+
+	/proc文件系统
+		这里的文件全部是假的，实际是内核中的数值
+		mount -t proc none /mnt
+		ls /mnt = ls /proc
+
+		cat /proc/mounts  = mount命令
+		cat /proc/meminfo = free命令
+		
+	/proc/sys 内核参数 - 可以设置，其他地方都是只读
+		proc on /proc type proc(rw)		这里的都不是真正的文件,显示内存中实际的值
+		mount -t proc none /aaa/
+		ls /aaa/   (= /proc = 显示内存中实际的值)
+
+		特殊的目录 /proc/sys 绝大多数可以修改(当下生效)
+			cat /proc/sys/net/ipv4/icmp_echo_ignore_all			0  = 没有设置 = 忽略所有的echo包吗？【不忽略，所以可以ping通】
+			echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all    1  = 忽略，此时无法ping通
+
+			ping -b 的广播包
+			echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts   1 = 关闭    0 = 可以 ping -b的广播包
+			ping 192.168.1.0 -b  [会有多少个 ip 回应呢？]
+
+		sysctl 修改内核参数，除非很了解很合，否则不用 (当下生效)
+			sysctl -w net.ipv4.icmp__ignore_broadcasts=1
+			sysctl -w fs.file-max=100000
+
+		vi /etc/sysctl.conf (永久生效)
+			net.ipv4.icmp__ignore_broadcasts = 0
+			net.ipv4.ip_forward = 1   [路由模式，1个内网网卡，1个公网网卡，做路由器，做防火墙]
+
+			sysctl -p  [读取文件，将修改部分立刻生效， 不用重启电脑了]
+
+		秘籍
+			与正常服务器做对比,无论知道是否知道内核参数与否
+			导出配置 ： sysctl -a > /tmp/a.txt
+			放到另一台： scp /tmp/a.txt 192.168.1.101
+			导入到另一台电脑： sysctl -p -f a.txt    看是否解决，来判断是否是参数问题
+
+	系统日志
+		ls /var/log (常见日志)
+		messages 		【汇总】所有程序的日志都会写入messages里，例如httpd问题，先看messages
+		maillog 		 mail日志
+		mysqld.log       mysql日志
+		xferlog 		 ftp日志（登录，下载速度）
+		cron 			 计划任务日志
+		boot			 启动
+		Xorg			 图形界面日志
+		dmesg 			 buffer，内核相关日志
+
+		secure (安全日志：改密码，添加用户，用户登录)
+			添加用户：Feb 11 07:31:31 localhost useradd[19934]: new user: name=lxf3, UID=504, GID=504, home=/home/lxf3, shell=/bin/bash
+			修改密码：Feb 11 07:32:18 localhost passwd: pam_unix(passwd:chauthtok): password changed for lxf3
+			su登录  ：Feb 11 07:33:06 localhost su: pam_unix(su:session): session opened for user lxf1 by root(uid=0)
+			sudo    ：Feb 11 07:33:36 localhost sudo:     lxf1 : user NOT in sudoers ; TTY=pts/2 ; PWD=/root ; USER=root ; COMMAND=root
+			密码错误：authentication failure;
+
+		wtmp 安全日志(二进制，黑客无法更改)
+			用last命令去查看 = wtmp | 无法修改的
+
+2.了解进程
+	特点：  系统通过进程来完成工作
+			一个进程 对应 1个进程号， 系统通过调用进程号来调度操控进程
+			系统的原始进程是 init ，它的PID 是 1
+			一个进程可以产生另一个进程，除了init以外，所有的进程都有父进程
+
+	top 命令
+		PID 进程ID | USER 拥有者 | PR 优先级 |NI　｜VIRT 虚拟占用大小| RES 实际占用大小| SHR　
+
+		m 按照内存排序
+		k 杀掉进程 15， 9强制
+		n 进程优先级挑高 or 挑低
+		+- 翻页
+
+	ps 命令
+		ps auxf 	x是保护进程，没有x只显示控制台tty1下的进程 | f 是父子关系
+		ps ef 		列数与-aux不一样
+		ps -ef 		显示的更多
+
+	kill 产生信号 
+		kill -L
+			
+
+		kill 4811      自杀     （默认是 15） [4811为举例，是个httpd的进程]
+		kill -9 6666   强制结束 (bash不响应15信号，无法 kill + pid 结束掉，所以加 -9 强制结束)
+					   注：9 强制杀掉，不是自己正常关闭，所以会导致僵尸进程，无法在被控制
+		kill -19 6666  暂停信号 (进程变为 Ts+ = stop sleeping ， 此时bash中输入命令行不再有反应)
+		kill -18 6666  继续信号 （把 暂停的进程 开始工作）
+
+	killall httpd 
+	killall -9 httpd
+
+	skill lxf1			把lxf1的进程全部结束
+	skill -9 lxf1		【强制】把lxf1的进程全部结束	
+	skill pts/2 		把 某控制台 里的全部结束掉
+
+	pkill -u lxf1		避免 用户名叫 pts/2 = 控制台名
+
+
+
+
+
+
+
+
+
+
+
+
+
