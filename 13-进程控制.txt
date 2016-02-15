@@ -1,5 +1,5 @@
 Linux 系统状态检测及进程控制
-
+ 
 1. 系统信息的收集
 	hostname	
 		vi /etc/hosts
