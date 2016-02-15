@@ -1,0 +1,72 @@
+14-Bash使用详解
+
+1. Shell简单介绍
+	Bash进程 = Shell
+	API： strace ls
+	换shell ： ksh回车即是ksh ， 但命令不一定同 bash，而且不一定用的方便；
+
+2.Bash变量
+	自定义变量
+		AAA=lixuefei
+		echo $AAA		能取出AAA的值， 但 bash出一个新窗口，AAA变量就失效了
+		export AAA 		变为全局变量
+	
+	set 查看所有变量（包含env）
+
+	env 全局变量 
+	export	设置全局变量 
+		export AAA 		变为全局变量
+
+
+	重要变量：
+		echo $PATH   (执行命令时，去哪些目录去找命令执行文件)
+
+	若bash有问题：
+		/bin/bash/ifconfig    [lxf账户若想运行 ifconfig时，必须要写bash路径]
+
+	增加Bash目录：
+		PATH=$PATH:/data/lxf_python 	(当前生效)
+
+		Bash初始化文件 (永久生效)
+			vi ~/.bash_profile
+				PATH=$PATH:/data/lxf_python 	(例如 Orcacle)
+
+	$PS1
+		决定当前提示符状态
+		PS1="\u @ \h \w \t \:"    [命令行变为 root @ localhost ~ 10:11:13 \:]
+		PS1="C:"
+
+	清除变量
+		exit 重新登录
+
+	查询变量参数 (例如 \u \w \t)
+		man bash
+		/\\u 	查找\u,此时能找到 \u \v \V \w \W \! \# 等等
+
+	注意：
+		一个变量 一定要 export，否则 ./a.sh时， 脚本会新生成一个bash，这是自定义变量就不存在了
+
+3. bash快捷键
+	Tab		不全
+	Tab双击	列出所有匹配的选择
+	ctrl+c 	结束当前任务
+	ctrl+z  当前任务暂停，并放到后台， 取出到前台用 fg %x(x=jobs的任务号)
+	ctrl+s  停止屏幕输出
+	ctrl+q  恢复屏幕输出
+	ctrl+l  清屏
+	ctrl+d  标准输入结束
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
