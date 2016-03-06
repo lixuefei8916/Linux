@@ -114,7 +114,7 @@ alias别名
 	[ $USER = root ] && echo hello root
 
 定制bash
-	每次启动，都自动执行一些命令
+	每次 USER启动，都自动执行一些命令
 
 	系统执行顺序
 		/etc/profile      [针对所有人，统一的]
@@ -122,24 +122,24 @@ alias别名
 		~/.bashrc
 		/etc/bashrc       [针对所有人，统一的]
 
-	那我定义到哪里？
+	profile 在
+	bashrc    在命令行输入bash时会执行
 
+	中文、英文
+		echo $LANG
+		echo $LC_ALL 
+		vi /etc/profile.d/lang.sh
 
+每一次都登录中文
+	vi ~/.bashrc
+		export LANG="zh_CN.UTF-8"
+		export LC_ALL="zh_CN.UTF-8"
 
+系统全部变为中文
+	vi /etc/sysconfig/i18n
+		LANG="zh_CN.UTF-8"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+14-Bash使用详解
 
 
 
