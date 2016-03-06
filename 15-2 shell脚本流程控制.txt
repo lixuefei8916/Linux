@@ -1,0 +1,30 @@
+15-2 shell脚本流程控制
+
+True or False判断
+	[ abc ]  因为 abc的阿塞克码为True，所以echo $? = 0 为True
+	echo $?
+
+	[]
+	echo $?
+
+	[ "$USER" = "root" ]   (单引号是把特殊字符的意义取消， 双引号只把空格的意义取消掉)
+	echo $?
+
+&&  前True再执行后
+	[ "$USER" = "root" ] && echo hello root
+	[ -x /etc/passwd ] && echo ok   (-x 代表是否有x权限，无论是文件还是文件夹)
+	[ -b /dev/cdrom ] && echo ok 
+		man bash里有参数的详解
+		-x 可执行
+		-r 可读
+		-w 可写
+		-f 普通文件
+		-d 普通文件
+		-L 链接
+		-b 设备文件
+		-c 字符文件
+
+
+
+
+15-2 shell脚本流程控制
