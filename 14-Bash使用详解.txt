@@ -105,6 +105,25 @@ alias别名
 	``			反引号
 				echo `which ls`
 				touch log`date +%m%d`
+	[ -f /etc/passwd ]  中括号两边加空格
+	[ -f /etc/passwd ]  && echo ok     &&代表前面的为True，则执行后面的命令
+	|| 			前面的结果为 True时， 后面的不执行；
+
+	判断 某程序是否安装  [ -d /oracle ] && echo begin the install (-d 判断是否为目录)
+
+	[ $USER = root ] && echo hello root
+
+定制bash
+	每次启动，都自动执行一些命令
+
+	系统执行顺序
+		/etc/profile      [针对所有人，统一的]
+		~/.bash_profile
+		~/.bashrc
+		/etc/bashrc       [针对所有人，统一的]
+
+	那我定义到哪里？
+
 
 
 
