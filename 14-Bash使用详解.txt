@@ -57,6 +57,60 @@
 	ctrl+d  标准输入结束
 
 
+4. 历史命令
+	保留1000个， 保存在 set | grep HIS  == /root/.bash_history
+
+	清楚记录，防泄密
+	history -c
+
+	自动清理，防泄密
+		ls .bash*   [家目录下]
+		vim .bash_logout
+			clear
+			history -c
+
+	调用历史
+		上下键
+		Ctrl + r
+		! + 数字 （数字是history的标号）
+
+变量
+	set     设置  set x=1000
+	env 	显示
+	unset   取消
+
+alias别名
+	alias x="echo LIXUEFEI"
+
+运算符
+	！20 		执行第20号命令
+	！！ 		上一条命令
+	* 			任意多个任意字符
+	[abc]  	 	a or b or c
+	[^abc]  	不是 a or b or c
+	｛｝ 		枚举
+	& 			把程序丢入后台
+	~ 			家目录 cd ~lxf  /  cd ~ 自己的主目录
+	% 			%1 后台的第1个任务
+	() 			aaa() = 声明一个aaa的函数，
+				aaa()
+				{
+				echo tis is aaa
+				ls
+				cd /tmp
+				}
+	"" 			touch "a b" 把空格作用屏蔽，可与 touch a b 做对比
+	 			echo "a b $USER"
+	'' 			包做有特殊符号都屏蔽， echo "a b $USER" ，其中$就是个普通字符被打印
+	``			反引号
+				echo `which ls`
+				touch log`date +%m%d`
+
+
+
+
+
+
 
 
 
