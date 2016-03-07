@@ -26,5 +26,123 @@ True or False判断
 
 
 
+调试
+	bash -v .test.sh  	[-v  让执行过程可见]
+	bash -vx .test.sh  	[-v  让执行过程可见 + x把变量可见]	
+
+-----------------------------
+第一种控制
+
+#! /bin/bash
+read AAA
+if [ $AAA = lxf]
+	then
+		echo hello lxf
+	elif [ $AAA = root ]
+		then echo hello root
+	else echo `get out !`
+fi
+
+-------------------------------
+第二种控制
+
+#! /bin/bash
+read AAA
+case $AAA in
+	lxf )
+		echo hello lxf
+		echo nice to meet you
+		;;
+	root )
+		echo hello root
+		;;
+	* )
+		echo get out here
+		;;
+esac
+-------------------------------
+第二种控制 - 实例 /etc/rc.d/init.d/httpd
+start()
+	xxxx
+	xxxxx
+case $1 in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		status $httpd
+		RETVAL=$?
+
+-------------------------------
+
+
+比较运算符
+
+	! [ xxx ] 求反
+	! [ -f /etc/passwd ] && echo True 
+
+	-eq 	=	相等
+	-ne 	!=	不等
+	-gt 	> 	大于
+	-lt 	< 	小于
+	-ge 	>=
+	-le 	<=
+	-z			为空
+	-n 			不为空
+
+
+比较 a 与 b 是否相等	[ $a = $b ]
+a是否为空	[ -z $a ]
+a>b 		[ $a -gt $b]
+
+-------------------------------
+
+若 httpd 在运行就杀掉， 如果未运行则推出
+
+#!/bin/bash
+AAA = "`pgrep httpd`"
+[ -z "$AAA" ] && echo 'httpd is not running!' && exit
+for i in $AAA
+	do
+		kill -9 $i
+	done
+echo htppd is killed
+
+-------------------------------
+
+#!/bin/bash
+for aaa in 111 222 333 /etc/profile.d/*.sh   {*.sh 打印该目录下所有 .sh文件}
+do
+	echo $aaa
+done
+
+
+-------------------------------
+循环 
+
+for aaa in `seq 1 100`   {循环 100次  seq 1 100}
+do
+	echo -n "$aaa"
+	sleep 1
+done
+
+
+-------------------------------
+while 循环
+
+i = 0
+while [ $i -lt 100 ]
+	do
+		i=$[$i+1]
+		echo -n "$i"
+	done
+
+
+
+
+
 
 15-2 shell脚本流程控制
