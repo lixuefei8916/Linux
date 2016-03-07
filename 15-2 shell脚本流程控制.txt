@@ -141,6 +141,31 @@ while [ $i -lt 100 ]
 	done
 
 
+-------------------------------
+until 不满足时，直到条件满足
+
+iii = 0
+until [ $iii -gt 100 ]
+	do
+		iii = $[$iii+1]
+		echo -n "$iii"
+	done
+
+
+-------------------------------
+无限输入，直到输入ddd时推出
+
+while true 
+do
+	read AAA
+	if [ "$AAA" = "ddd" ]
+	then
+	break
+	fi
+done
+
+
+-------------------------------
 
 
 
