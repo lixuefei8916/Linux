@@ -1,0 +1,55 @@
+16-Linux安装软件
+
+一、源码Tarball 安装
+	1. 安装
+		最常见的安装方式， 但总出错
+		tar xvzf httpd.....tar.gz -C /usr/src/
+		cd /usr/src/httpd...
+		./configure --prefix=/usr/local/apache2 + 其他可选选项（--with-mpm=worker）
+		make
+		make install
+		装好以后，cd /usr/local/apache2
+
+
+二、 rpm (二进制安装，如同windows的安装方式)
+	文件名：xxxxx.i386.rpm   [适应所有 i386以上的cpu， 包含486，586]
+	
+	安装：	rpm -ivh xxxx.i386.rpm
+	重装/强制安装：	rpm -ivh --force xxxx.i386.rpm	[并不是解决依存关系问题，而是重装问题]
+	无视依赖关系：  rpm -ivh --nodeps xxxx.i386.rpm
+
+	卸载：	rpm -e httpd [写包的名字，不是文件名 = 不用加 xxx.i386.rpm]
+	强制删除： rpm -e --nodeps httpd
+
+	依赖关系：	a.rpm --> b.rpm --> c.rpm --> a.rpm ；相互依赖，阻碍安装
+				rpm -ivh --aid xxxx.i386.rpm 	[ 一次安装所有依赖关系包 ][ 但 免费red hat无法使用 --aid ]
+				rpm -ivh a.rpm b.rpm c.rpm
+
+	升级U：		rpm -Uvh xxxxxxx.i386.rpm 	[若已装，则升级 | 若未装低版本，直接安装]
+
+	升级F：		rpm -Fvh xxxx.i386.rpm		[若已装，则升级 | 若未装低版本，不装 ]
+
+	全体升级：	rpm -Fvh *.rpm
+
+
+	查询文件：	rpm -qf /bin/ls 	告诉你 这个文件，属于哪个包
+				rpm -qfi /bin/ls 	
+
+	查询已装：	rpm -qa | grep httpd
+				rpm -q httpd
+
+				rpm -ql httpd
+				rpm -qi httpd
+				rpm -qil httpd
+				rpm -qil --scripts httpd
+
+	查询未装：  rpm -qpl httpd.xxxxx.i386.rpm    [没安装的，但需要查询下]
+				rpm -qpi httpd.xxxxx.i386.rpm    [没安装的，但需要查询下]
+
+
+	验证变化：	rpm -Vf /bin/ls
+
+
+
+
+
