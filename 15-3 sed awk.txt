@@ -1,0 +1,84 @@
+[ sed ]
+
+流编辑器
+最有用的管理器之一 , 在shell中要修改文本时,处理一行一行的情况
+
+sed -e 后面跟命令
+
+s/ 替换 ，替换后显示在屏幕上，文件没有被改变
+	sed -e 's/root/lxf/g' /etc/passwd > /tmp/a.txt		[把root替换为lxf]
+	cp /tmp/a /etc/passwd
+
+	sed -n -e '/\<root\>/s/bash/nologin/p' /etc/passwd	[/s替换，bash为nologin	]
+
+	自动 改 配置文件时用
+
+/g	
+	与/s替换组合使用，无论找到多少个都替换， 如果不加/g，只替换第1个
+
+
+sed -n 不输出
+	sed -n /etc/passwd
+sed -n -e 不输出,直到发现 -e后面的单词时，才输出
+	sed -n -e '/root/p' /etc/passwd
+	sed -n -e '/\<root\>/p' /etc/passwd		[\<r 单词以r开头] [t\> 单词以t结尾] [/p 打印，与-n组合，来帅选要打印的内容]
+
+/d 删除
+	sed -e '/^#/d' -e '/^$/d' /etc/squid/squid.conf	[/^# 已#开头的注释] [/d 删除掉] [/^$ 开头既是结尾 = 空行] 
+
+
+sed 文件
+1 把复杂的命令，写到文件里
+	vi sed_test.sh
+		s/root/lxf
+		s/bash/nologin
+
+	sed -f sed_test.sh /etc/passwd
+
+2 把复杂的命令，写到文件里
+	vi sed_test.sh
+		#!/bin/sed -f
+
+		s/root/lxf
+		s/bash/nologin
+
+	./sed_test.sh  /etc/passwd
+
+------------------------------------------------
+[ awk ]
+
+适合用于 列、行
+
+例子1
+	chkconfig --list | grep udev | awk '{print $1$4}'
+
+例子2
+	if [ `chkconfig --list | awk '$1=="network" {print $5}'` = "3:on" ] ; then echo ok ; fi 
+		以上， 先执行反引号里的内容  chkconfig --list | awk '$1=="network" {print $5}'
+		if 结果等于 3:ok , 则打印 ok
+
+例子3 打印服务是否自动启动
+	chkconfig --list | awk '{print $1 " on level " $5}'     [结果显示 iptables on level 3:on]
+
+例子4  自动启动的服务器 有多少个
+	chkconfig --list | awk 'BEGIN {x=0} { if ($5=="3:on") x+=1 } END {print x}'  
+	以上 BEGIN 是开始就运行的
+	 { if ($5=="3:on") x+=1 }  读每一列时，就运行一次
+	 END 最后运行
+
+例子4 统计 使用bash的帐号有多少个 【分隔符 是 冒号：】
+	awk -F: 'BEGIN {x=0} { if ($7=="/bin/bash") x+=1 } END {print x}' < /etc/passwd
+		-F ： 代表分隔符为 ：
+
+例子5	打印User的UID号
+	awk -F: '{print $1 " UID is " $3 }' < /etc/passwd
+
+例子6 awk的脚本文件编写
+	vi a.sh
+		BEGIN { x=0 }
+		{ if ($5=="3:on") x=x+1 }  #每一行都执行的命令
+		END { print x }
+	chkconfig --list | awk -f a.sh
+
+例子7 分析日志 /var/log/httpd
+	
